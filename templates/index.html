@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SVG Logo Scraper</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #0f1117;
+    color: #e2e8f0;
+    min-height: 100vh;
+  }
+
+  header {
+    background: #1a1d2e;
+    border-bottom: 1px solid #2d3148;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .brand { font-size: 1.4rem; font-weight: 700; color: #7c6aff; }
+  .brand span { color: #e2e8f0; font-weight: 400; font-size: 1rem; margin-left: 8px; }
+
+  .header-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+  button {
+    border: none; cursor: pointer; border-radius: 8px;
+    padding: 9px 18px; font-size: 0.85rem; font-weight: 600; transition: all .15s;
+  }
+
+  .btn-primary { background: #7c6aff; color: #fff; }
+  .btn-primary:hover { background: #6b58f0; }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .btn-secondary { background: #2d3148; color: #a0aec0; }
+  .btn-secondary:hover { background: #3a3f60; color: #e2e8f0; }
+
+  .btn-danger { background: #3d1b1b; color: #fc8181; }
+  .btn-danger:hover { background: #5a1f1f; }
+
+  .btn-sm { padding: 5px 12px; font-size: 0.78rem; }
+
+  /* Progress bar */
+  #progress-wrap {
+    display: none;
+    background: #1a1d2e;
+    border-bottom: 1px solid #2d3148;
+    padding: 12px 32px;
+  }
+  #progress-wrap.visible { display: block; }
+  .progress-info { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.82rem; color: #94a3b8; }
+  .progress-bar-bg { background: #2d3148; border-radius: 999px; height: 6px; }
+  .progress-bar-fill { background: #7c6aff; height: 6px; border-radius: 999px; transition: width .3s; }
+
+  /* Stats bar */
+  #stats-bar {
+    background: #1a1d2e;
+    padding: 10px 32px;
+    display: flex; gap: 24px; align-items: center; flex-wrap: wrap;
+    border-bottom: 1px solid #2d3148;
+    font-size: 0.82rem;
+  }
+  .stat { color: #94a3b8; }
+  .stat strong { color: #e2e8f0; }
+  .stat.svg strong    { color: #68d391; }
+  .stat.raster strong { color: #f6c343; }
+  .stat.missing strong { color: #fc8181; }
+  .stat.pending strong { color: #718096; }
+
+  /* Filters */
+  #filter-bar {
+    padding: 14px 32px;
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+    border-bottom: 1px solid #1e2133;
+  }
+  #filter-bar input {
+    background: #1a1d2e; border: 1px solid #2d3148; color: #e2e8f0;
+    padding: 7px 12px; border-radius: 8px; font-size: 0.85rem; width: 240px;
+  }
+  #filter-bar input:focus { outline: none; border-color: #7c6aff; }
+
+  .filter-btn { background: #1a1d2e; color: #94a3b8; border: 1px solid #2d3148; }
+  .filter-btn.active { background: #2d3148; color: #e2e8f0; border-color: #7c6aff; }
+  .filter-btn:hover { background: #2d3148; color: #e2e8f0; }
+
+  /* Grid */
+  #grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+    padding: 24px 32px;
+  }
+
+  .card {
+    background: #1a1d2e;
+    border: 1px solid #2d3148;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    transition: border-color .15s;
+  }
+  .card:hover { border-color: #7c6aff44; }
+
+  .card.found.svg   { border-color: #276749; }
+  .card.found.raster { border-color: #7a5a00; }
+  .card.not_found { border-color: #742a2a; }
+  .card.pending { border-color: #2d3148; }
+
+  .card-preview {
+    background-color: #fff;
+    background-image: linear-gradient(45deg, #e8e8e8 25%, transparent 25%),
+                      linear-gradient(-45deg, #e8e8e8 25%, transparent 25%),
+                      linear-gradient(45deg, transparent 75%, #e8e8e8 75%),
+                      linear-gradient(-45deg, transparent 75%, #e8e8e8 75%);
+    background-size: 16px 16px;
+    background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+    height: 120px;
+    display: flex; align-items: center; justify-content: center;
+    padding: 16px;
+  }
+  .card-preview img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .card-preview .placeholder {
+    font-size: 2.5rem; opacity: .15; color: #000;
+    font-weight: 900; text-transform: uppercase;
+    letter-spacing: -1px;
+  }
+
+  .card-body { padding: 12px 14px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+  .card-company { font-weight: 600; font-size: 0.88rem; line-height: 1.3; }
+  .card-meta { font-size: 0.74rem; color: #718096; }
+
+  .badge {
+    display: inline-block; border-radius: 999px;
+    padding: 2px 8px; font-size: 0.72rem; font-weight: 600;
+  }
+  .badge-svg     { background: #1a3d2b; color: #68d391; }
+  .badge-raster  { background: #3d2e00; color: #f6c343; }
+  .badge-not_found { background: #3d1b1b; color: #fc8181; }
+  .badge-pending { background: #222536; color: #718096; }
+
+  .card-actions { display: flex; gap: 6px; margin-top: auto; padding-top: 8px; }
+
+  .source-tag { font-size: 0.7rem; color: #7c6aff; }
+
+  .badge-verified   { background: #1a3d2b; color: #68d391; }
+  .badge-meta_only  { background: #1a2a3d; color: #63b3ed; }
+  .badge-unverified { background: #2a2020; color: #a0aec0; }
+  .badge-websearch  { background: #3d2e00; color: #f6ad55; }
+  .verify-icon { font-size: 0.72rem; margin-left: 4px; }
+
+  #empty-msg { display: none; padding: 40px 32px; color: #4a5568; text-align: center; font-size: 0.95rem; }
+  #empty-msg.visible { display: block; }
+
+  a.dl-link { color: #7c6aff; font-size: 0.78rem; text-decoration: none; }
+  a.dl-link:hover { text-decoration: underline; }
+
+  /* CSV upload bar */
+  #upload-bar {
+    background: #1a1d2e;
+    border-bottom: 1px solid #2d3148;
+    padding: 14px 32px;
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  }
+  #upload-bar label.upload-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #2d3148; color: #e2e8f0;
+    border-radius: 8px; padding: 8px 16px;
+    font-size: 0.85rem; font-weight: 600; cursor: pointer;
+    border: 1px dashed #4a5568; transition: all .15s;
+  }
+  #upload-bar label.upload-btn:hover { background: #3a3f60; border-color: #7c6aff; }
+  #upload-bar input[type=file] { display: none; }
+  #csv-status { font-size: 0.82rem; color: #94a3b8; }
+  #csv-status strong { color: #68d391; }
+  #csv-status.error strong { color: #fc8181; }
+  .sample-link { font-size: 0.78rem; color: #7c6aff; text-decoration: none; margin-left: auto; }
+  .sample-link:hover { text-decoration: underline; }
+
+  /* Empty / upload prompt */
+  #upload-prompt {
+    display: none;
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 12px; padding: 80px 32px; color: #4a5568; text-align: center;
+  }
+  #upload-prompt.visible { display: flex; }
+  #upload-prompt .prompt-icon { font-size: 3rem; opacity: .4; }
+  #upload-prompt p { font-size: 0.95rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="brand">SVG Logo Scraper <span>Visual Capitalist</span></div>
+  </div>
+  <div class="header-actions">
+    <button class="btn-secondary" id="btn-zip" onclick="downloadZip()">⬇ Download All SVGs</button>
+    <button class="btn-danger btn-sm" id="btn-clear" onclick="clearAll()">Clear Results</button>
+    <button class="btn-primary" id="btn-scrape-all" onclick="scrapeAll()" disabled>▶ Scrape All Logos</button>
+  </div>
+</header>
+
+<div id="upload-bar">
+  <label class="upload-btn" for="csv-input">
+    ⬆ Upload CSV
+    <input type="file" id="csv-input" accept=".csv" onchange="uploadCsv(this)">
+  </label>
+  <div id="csv-status">No file uploaded — upload a CSV to get started</div>
+  <a class="sample-link" href="/api/sample_csv" download>⬇ Download sample CSV</a>
+</div>
+
+<div id="progress-wrap">
+  <div class="progress-info">
+    <span id="prog-label">Scraping…</span>
+    <span id="prog-count">0 / 0</span>
+  </div>
+  <div class="progress-bar-bg">
+    <div class="progress-bar-fill" id="prog-bar" style="width:0%"></div>
+  </div>
+</div>
+
+<div id="stats-bar">
+  <div class="stat svg">SVG: <strong id="st-svg">-</strong></div>
+  <div class="stat raster">PNG/JPG: <strong id="st-raster">-</strong></div>
+  <div class="stat missing">Not Found: <strong id="st-missing">-</strong></div>
+  <div class="stat pending">Pending: <strong id="st-pending">-</strong></div>
+  <div class="stat">Total: <strong id="st-total">-</strong></div>
+  <div class="stat" style="margin-left:auto;color:#68d391;">✓ Wordmark: <strong id="st-verified">-</strong></div>
+  <div class="stat" style="color:#63b3ed;">◎ Icon logo: <strong id="st-metaonly">-</strong></div>
+  <div class="stat" style="color:#a0aec0;">? Graphic: <strong id="st-unverified">-</strong></div>
+  <div class="stat" style="color:#f6ad55;">⚠ Web img: <strong id="st-websearch">-</strong></div>
+</div>
+
+<div id="filter-bar">
+  <input type="text" id="search" placeholder="Search companies…" oninput="filterCards()">
+  <button class="btn-sm filter-btn active" data-filter="all" onclick="setFilter('all', this)">All</button>
+  <button class="btn-sm filter-btn" data-filter="found" onclick="setFilter('found', this)">Found</button>
+  <button class="btn-sm filter-btn" data-filter="not_found" onclick="setFilter('not_found', this)">Not Found</button>
+  <button class="btn-sm filter-btn" data-filter="pending" onclick="setFilter('pending', this)">Pending</button>
+</div>
+
+<div id="upload-prompt" class="visible">
+  <div class="prompt-icon">📄</div>
+  <p>Upload a CSV file to load your company list.</p>
+  <p style="font-size:0.8rem;color:#4a5568;">Required column: <code style="color:#7c6aff">Company</code> &nbsp;·&nbsp; Optional: <code style="color:#7c6aff">Location</code>, <code style="color:#7c6aff">Industry</code></p>
+  <label class="upload-btn" for="csv-input" style="margin-top:8px;">⬆ Upload CSV</label>
+</div>
+
+<div id="grid"></div>
+<div id="empty-msg">No companies match your filter.</div>
+
+<script>
+const COMPANIES = [];
+let results = {};
+let activeFilter = 'all';
+let pollingInterval = null;
+
+function getStatus(company) {
+  if (!results[company]) return 'pending';
+  return results[company].status === 'found' ? 'found' : 'not_found';
+}
+
+function initials(name) {
+  return name.split(/\s+/).slice(0,2).map(w => w[0]||'').join('').toUpperCase();
+}
+
+function buildCard(item) {
+  const company = item.company;
+  const status = getStatus(company);
+  const r = results[company];
+  const fmt = r?.format || null;
+  const isRaster = status === 'found' && fmt && fmt !== 'svg';
+  const fmtClass = status === 'found' ? (isRaster ? 'raster' : 'svg') : status;
+
+  const previewHtml = (status === 'found' && r?.file)
+    ? `<img src="/logos/${encodeURIComponent(r.file)}?t=${Date.now()}" alt="${company}" onerror="this.parentElement.innerHTML='<div class=\\'placeholder\\'>${initials(company)}</div>'">`
+    : `<div class="placeholder">${initials(company)}</div>`;
+
+  const badgeLabel = status === 'found'
+    ? (isRaster ? (fmt || 'PNG').toUpperCase() + ' — no SVG' : 'SVG')
+    : status === 'not_found' ? 'Not Found' : 'Pending';
+
+  const sourceHtml = r?.source ? `<div class="source-tag">via ${r.source}</div>` : '';
+  const dlLabel = isRaster ? `⬇ ${(fmt||'png').toUpperCase()}` : '⬇ SVG';
+  const dlHtml = (status === 'found' && r?.file)
+    ? `<a class="dl-link" href="/logos/${encodeURIComponent(r.file)}" download>${dlLabel}</a>` : '';
+
+  const v = r?.verified;
+  const isWebSearch = r?.source === 'Web Image Search';
+  const verifyHtml = status === 'found' && v
+    ? (v === 'verified'
+        ? `<span class="badge badge-verified verify-icon" title="Company name visible in the logo graphic">✓ wordmark</span>`
+        : v === 'meta_only'
+        ? `<span class="badge badge-meta_only verify-icon" title="Correct logo file — name not rendered as text (icon/symbol style)">◎ icon logo</span>`
+        : isWebSearch
+        ? `<span class="badge badge-websearch verify-icon" title="Found via web image search — low quality, may need manual replacement">⚠ web image</span>`
+        : `<span class="badge badge-unverified verify-icon" title="Pure graphic logo — identity unconfirmed">? graphic</span>`)
+    : '';
+
+  return `
+<div class="card ${status} ${fmtClass}" id="card-${CSS.escape(company)}" data-company="${company}" data-status="${status}">
+  <div class="card-preview">${previewHtml}</div>
+  <div class="card-body">
+    <div class="card-company">${company}</div>
+    <div class="card-meta">${item.state} · ${item.category}</div>
+    <div><span class="badge badge-${fmtClass}">${badgeLabel}</span> ${verifyHtml} ${sourceHtml}</div>
+    <div class="card-actions">
+      <button class="btn-secondary btn-sm" onclick="scrapeNext('${company.replace(/'/g,"\\'")}')">↺ Try Another</button>
+      ${dlHtml}
+    </div>
+  </div>
+</div>`;
+}
+
+function renderGrid() {
+  const query = document.getElementById('search').value.toLowerCase();
+  const grid = document.getElementById('grid');
+  const emptyMsg = document.getElementById('empty-msg');
+
+  let svgCount = 0, rasterCount = 0, notFound = 0, pending = 0;
+  let verifiedCount = 0, metaOnlyCount = 0, unverifiedCount = 0, webSearchCount = 0;
+  COMPANIES.forEach(item => {
+    const s = getStatus(item.company);
+    const r = results[item.company];
+    const fmt = r?.format;
+    if (s === 'found' && fmt === 'svg') svgCount++;
+    else if (s === 'found') rasterCount++;
+    else if (s === 'not_found') notFound++;
+    else pending++;
+    if (s === 'found') {
+      if (r?.verified === 'verified')        verifiedCount++;
+      else if (r?.verified === 'meta_only')  metaOnlyCount++;
+      else if (r?.verified === 'unverified' && r?.source === 'Web Image Search') webSearchCount++;
+      else if (r?.verified === 'unverified') unverifiedCount++;
+    }
+  });
+  document.getElementById('st-svg').textContent       = svgCount;
+  document.getElementById('st-raster').textContent    = rasterCount;
+  document.getElementById('st-missing').textContent   = notFound;
+  document.getElementById('st-pending').textContent   = pending;
+  document.getElementById('st-total').textContent     = COMPANIES.length;
+  document.getElementById('st-verified').textContent  = verifiedCount;
+  document.getElementById('st-metaonly').textContent  = metaOnlyCount;
+  document.getElementById('st-unverified').textContent = unverifiedCount;
+  document.getElementById('st-websearch').textContent  = webSearchCount;
+
+  const filtered = COMPANIES.filter(item => {
+    const matchSearch = !query || item.company.toLowerCase().includes(query) || item.state.toLowerCase().includes(query);
+    const matchFilter = activeFilter === 'all' || getStatus(item.company) === activeFilter;
+    return matchSearch && matchFilter;
+  });
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    emptyMsg.classList.add('visible');
+  } else {
+    emptyMsg.classList.remove('visible');
+    grid.innerHTML = filtered.map(buildCard).join('');
+  }
+}
+
+function filterCards() { renderGrid(); }
+function setFilter(f, btn) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGrid();
+}
+
+async function uploadCsv(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const status = document.getElementById('csv-status');
+  status.className = '';
+  status.textContent = 'Uploading…';
+  const form = new FormData();
+  form.append('file', file);
+  const res = await fetch('/api/upload_csv', { method: 'POST', body: form });
+  const data = await res.json();
+  if (!res.ok) {
+    status.className = 'error';
+    status.innerHTML = `<strong>Error:</strong> ${data.error}`;
+    return;
+  }
+  COMPANIES.length = 0;
+  data.companies.forEach(c => COMPANIES.push(c));
+  results = await fetch('/api/results').then(r => r.json());
+  status.innerHTML = `<strong>${data.count} companies</strong> loaded`;
+  document.getElementById('btn-scrape-all').disabled = false;
+  document.getElementById('upload-prompt').classList.remove('visible');
+  renderGrid();
+}
+
+async function scrapeAll() {
+  const btn = document.getElementById('btn-scrape-all');
+  btn.disabled = true;
+  const res = await fetch('/api/scrape/all', { method: 'POST' });
+  if (res.ok) {
+    startPolling();
+  } else {
+    btn.disabled = false;
+    alert('Scraping already in progress.');
+  }
+}
+
+async function scrapeOne(company) {
+  const card = document.getElementById('card-' + CSS.escape(company));
+  if (card) card.querySelectorAll('button').forEach(b => { b.textContent = '…'; b.disabled = true; });
+  const res = await fetch('/api/scrape/' + encodeURIComponent(company), { method: 'POST' });
+  const data = await res.json();
+  results[company] = data;
+  renderGrid();
+}
+
+async function scrapeNext(company) {
+  const card = document.getElementById('card-' + CSS.escape(company));
+  if (card) card.querySelectorAll('button').forEach(b => { b.textContent = '…'; b.disabled = true; });
+  const res = await fetch('/api/scrape/' + encodeURIComponent(company) + '/next', { method: 'POST' });
+  const data = await res.json();
+  results[company] = data;
+  renderGrid();
+}
+
+function startPolling() {
+  if (pollingInterval) clearInterval(pollingInterval);
+  document.getElementById('progress-wrap').classList.add('visible');
+  pollingInterval = setInterval(pollProgress, 1200);
+}
+
+async function pollProgress() {
+  const [prog, res] = await Promise.all([
+    fetch('/api/progress').then(r => r.json()),
+    fetch('/api/results').then(r => r.json()),
+  ]);
+  results = res;
+
+  const pct = prog.total ? Math.round((prog.done / prog.total) * 100) : 0;
+  document.getElementById('prog-bar').style.width = pct + '%';
+  document.getElementById('prog-count').textContent = `${prog.done} / ${prog.total}`;
+  document.getElementById('prog-label').textContent = prog.current
+    ? `Scraping: ${prog.current}` : (prog.running ? 'Working…' : 'Complete');
+
+  renderGrid();
+
+  if (!prog.running) {
+    clearInterval(pollingInterval);
+    pollingInterval = null;
+    document.getElementById('btn-scrape-all').disabled = false;
+    setTimeout(() => {
+      document.getElementById('progress-wrap').classList.remove('visible');
+    }, 3000);
+  }
+}
+
+async function clearAll() {
+  if (!confirm('Clear all results and downloaded logos?')) return;
+  await fetch('/api/clear', { method: 'POST' });
+  results = {};
+  renderGrid();
+}
+
+function downloadZip() {
+  window.location.href = '/api/download_zip';
+}
+
+renderGrid();
+</script>
+</body>
+</html>
