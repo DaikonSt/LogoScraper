@@ -1,0 +1,214 @@
+{
+  "Verbund": {
+    "company": "Verbund",
+    "status": "found",
+    "source": "Company Website",
+    "file": "Verbund.svg",
+    "url": "https://www.verbund.com/media/tgolarpv/logo.svg",
+    "format": "svg",
+    "verified": "meta_only"
+  },
+  "YPF": {
+    "company": "YPF",
+    "status": "found",
+    "source": "Wikipedia",
+    "file": "YPF.svg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/c/cd/YPF_S.A._logo.svg",
+    "format": "svg",
+    "verified": "meta_only"
+  },
+  "Grameenphone": {
+    "company": "Grameenphone",
+    "status": "found",
+    "source": "Wikipedia",
+    "file": "Grameenphone.svg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/9/98/Grameenphone_Logo_GP_Logo.svg",
+    "format": "svg",
+    "verified": "meta_only"
+  },
+  "Anheuser-Busch InBev": {
+    "company": "Anheuser-Busch InBev",
+    "status": "found",
+    "source": "DuckDuckGo Images",
+    "file": "Anheuser-Busch_InBev.png",
+    "url": "https://logos-world.net/wp-content/uploads/2022/11/Anheuser-Busch-InBev-Logo.png",
+    "format": "png",
+    "verified": "unverified",
+    "_tried_urls": [
+      "https://upload.wikimedia.org/wikipedia/commons/7/7a/Anheuser-Busch_InBev_-_logo_%28Belgium%2C_2022-%29.svg"
+    ]
+  },
+  "Petrobras": {
+    "company": "Petrobras",
+    "status": "found",
+    "source": "Wikipedia",
+    "file": "Petrobras.svg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/f/f8/PETROBRAS_OLD_LOGO.svg",
+    "format": "svg",
+    "verified": "meta_only"
+  },
+  "Arch Capital Group": {
+    "company": "Arch Capital Group",
+    "status": "found",
+    "source": "Company Website",
+    "file": "Arch_Capital_Group.png",
+    "url": "https://www.archcapital.com/ws/media-library/d0a25a3286a76c79a7309d67d09889d1/arch-capital-logo---seb.png",
+    "format": "png",
+    "verified": "meta_only"
+  },
+  "BHP Group": {
+    "company": "BHP Group",
+    "status": "found",
+    "source": "Facebook",
+    "file": "BHP_Group.jpg",
+    "url": "https://scontent.flhr4-4.fna.fbcdn.net/v/t39.30808-1/353654781_635658681927650_8661633484928506718_n.jpg?stp=dst-jpg_s100x100_tt6&_nc_cat=111&ccb=1-7&_nc_sid=f907e8&_nc_ohc=ISJNe5LrFg4Q7kNvwE3gTSv&_nc_oc=Adr1eARmG5RkfKovHc1jwi9g_gtZdW5QePFmxGrX5dp6U41xwKoma9KuJbFdUNmbj8N9CibBdNYUtYhm39tSBUqu&_nc_zt=24&_nc_ht=scontent.flhr4-4.fna&edm=AKsJ254EAAAA&_nc_gid=BMHcVDr-luE01tofvZZfog&oh=00_Af7x7tDsi5dIJcenVHM5Vp1x0zSZCMBnGKgS-nCupLOR2A&oe=6A13FA8B",
+    "format": "jpg",
+    "verified": "meta_only"
+  },
+  "Home Depot": {
+    "company": "Home Depot",
+    "status": "found",
+    "source": "Company Website",
+    "file": "Home_Depot.svg",
+    "url": "https://assets.thdstatic.com/images/v1/brand-logos/HomeDecoratorsCollection_logo.svg",
+    "format": "svg",
+    "verified": "meta_only"
+  },
+  "Ahli United Bank": {
+    "company": "Ahli United Bank",
+    "status": "found",
+    "source": "Facebook",
+    "file": "Ahli_United_Bank.jpg",
+    "url": "https://scontent.flhr4-4.fna.fbcdn.net/v/t39.30808-1/311781816_465171199047919_5017554338200520668_n.jpg?stp=c12.0.273.273a_dst-jpg_s100x100_tt6&_nc_cat=103&ccb=1-7&_nc_sid=f907e8&_nc_ohc=8Vnlr2u-FmMQ7kNvwFyIL7u&_nc_oc=AdpJrIymZYd4gUa293brYdkF6waWWFxSyuAVExN2E8KPx-_yZYzoy2tpG_ZyK1RcWdgAgfauKh2mbOhr2MhvAGN3&_nc_zt=24&_nc_ht=scontent.flhr4-4.fna&edm=AKsJ254EAAAA&_nc_gid=3-EpDvTUD0zmPKnK_ffUwA&oh=00_Af7Gil-HDlKxkjmZ0b6nWBr8KoVcorbd3hVjubMkD3a4GQ&oe=6A1405EB",
+    "format": "jpg",
+    "verified": "meta_only"
+  },
+  "Tencent Holdings": {
+    "company": "Tencent Holdings",
+    "status": "found",
+    "source": "VectorLogo.zone",
+    "file": "Tencent_Holdings.svg",
+    "url": "https://www.vectorlogo.zone/logos/tencent/tencent-ar21.svg",
+    "format": "svg",
+    "verified": "verified"
+  },
+  "First National Bank of Botswana": {
+    "company": "First National Bank of Botswana",
+    "status": "found",
+    "source": "DuckDuckGo Images",
+    "file": "First_National_Bank_of_Botswana.jpg",
+    "url": "https://logowik.com/content/uploads/images/first-national-bank-of-botswana3959.jpg",
+    "format": "jpg",
+    "verified": "unverified"
+  },
+  "Nu Holdings": {
+    "company": "Nu Holdings",
+    "status": "found",
+    "source": "DuckDuckGo Images",
+    "file": "Nu_Holdings.png",
+    "url": "https://companieslogo.com/img/orig/NU-8c6ed5e4.png?t=1720244493",
+    "format": "png",
+    "verified": "unverified"
+  },
+  "Tchaikapharma High Quality Medicines": {
+    "company": "Tchaikapharma High Quality Medicines",
+    "status": "not_found",
+    "source": null,
+    "file": null,
+    "url": null,
+    "format": null,
+    "_tried_urls": [
+      "https://banker.bg/wp-content/uploads/f3cc5d65-da19-4241-8733-75fb78e7b486-1-1024x533.png"
+    ]
+  },
+  "SQM": {
+    "company": "SQM",
+    "status": "found",
+    "source": "Company Website",
+    "file": "SQM.png",
+    "url": "https://sqm.com/wp-content/themes/sqm_wptheme/assets/img/logoSQM-es.png",
+    "format": "png",
+    "verified": "meta_only"
+  },
+  "Ecopetrol": {
+    "company": "Ecopetrol",
+    "status": "found",
+    "source": "DuckDuckGo Images",
+    "file": "Ecopetrol.jpg",
+    "url": "https://as2.ftcdn.net/v2/jpg/06/64/68/67/1000_F_664686795_U3DfoBL3FF54qdYrExhuI0PbLsWS2wPE.jpg",
+    "format": "jpg",
+    "verified": "unverified"
+  },
+  "Soci\ufffdt\ufffd G\ufffdn\ufffdrale C\ufffdte d'Ivoire": {
+    "company": "Soci\ufffdt\ufffd G\ufffdn\ufffdrale C\ufffdte d'Ivoire",
+    "status": "found",
+    "source": "DuckDuckGo Images",
+    "file": "Socit_Gnrale_Cte_dIvoire.jpg",
+    "url": "https://www.lejecos.com/photo/art/grande/33164260-30674978.jpg?v=1556550829",
+    "format": "jpg",
+    "verified": "unverified"
+  },
+  "Bank of Cyprus": {
+    "company": "Bank of Cyprus",
+    "status": "found",
+    "source": "DuckDuckGo Images",
+    "file": "Bank_of_Cyprus.jpg",
+    "url": "https://vectorseek.com/wp-content/uploads/2023/04/Bank-of-Cyprus-Logo-Vector-300x300.jpg",
+    "format": "jpg",
+    "verified": "unverified"
+  },
+  "Novo Nordisk": {
+    "company": "Novo Nordisk",
+    "status": "found",
+    "source": "WorldVectorLogo",
+    "file": "Novo_Nordisk.svg",
+    "url": "https://cdn.worldvectorlogo.com/logos/novo-nordisk-logo.svg",
+    "format": "svg",
+    "verified": "meta_only"
+  },
+  "INA-Industrija Nafte d.d.": {
+    "company": "INA-Industrija Nafte d.d.",
+    "status": "found",
+    "source": "DuckDuckGo Images",
+    "file": "INA-Industrija_Nafte_dd.jpg",
+    "url": "https://www.ina.hr/app/uploads/2020/01/ina-logo-big-1.jpg",
+    "format": "jpg",
+    "verified": "unverified"
+  },
+  "CEZ Group": {
+    "company": "CEZ Group",
+    "status": "found",
+    "source": "Facebook",
+    "file": "CEZ_Group.jpg",
+    "url": "https://scontent.flhr4-4.fna.fbcdn.net/v/t39.30808-1/306562764_425589946335106_4937408484312998095_n.jpg?stp=dst-jpg_s100x100_tt6&_nc_cat=105&ccb=1-7&_nc_sid=f907e8&_nc_ohc=nFG6bqv9QcYQ7kNvwHDK_xu&_nc_oc=Adq44Q1wmtiH5CxCARDiEG1bwfOmZfxzV-0jLktrq8jeJyvjjmRQLONEcS3XG9uywG4PBcdAv7Ue3J2f8Joj7LQO&_nc_zt=24&_nc_ht=scontent.flhr4-4.fna&edm=AKsJ254EAAAA&_nc_gid=oR4ad1kPjf5cz3Ypsiehhw&oh=00_Af7o6Z3B4Fiblj3RSPLleBckrcKMwZsqlpLg-Niu9OHsCA&oe=6A13F748",
+    "format": "jpg",
+    "verified": "meta_only"
+  },
+  "Commercial International Bank": {
+    "company": "Commercial International Bank",
+    "status": "found",
+    "source": "Wikimedia Commons",
+    "file": "Commercial_International_Bank.svg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Cib_Logo.svg",
+    "format": "svg",
+    "verified": "meta_only"
+  },
+  "Nordea Bank": {
+    "company": "Nordea Bank",
+    "status": "found",
+    "source": "Wikipedia",
+    "file": "Nordea_Bank.svg",
+    "url": "https://upload.wikimedia.org/wikipedia/en/5/55/Nordea_old_logo.svg",
+    "format": "svg",
+    "verified": "meta_only"
+  },
+  "Enefit Green": {
+    "company": "Enefit Green",
+    "status": "found",
+    "source": "Wikimedia Commons",
+    "file": "Enefit_Green.svg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/7/78/Enefit_Green_logo.svg",
+    "format": "svg",
+    "verified": "meta_only"
+  }
+}
